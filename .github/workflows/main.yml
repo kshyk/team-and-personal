@@ -1,0 +1,209 @@
+name: Playwright Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: '${{ github.workflow }}-${{ github.ref }}'
+  cancel-in-progress: true
+
+jobs:
+  test:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: lts/*
+    - name: Install dependencies
+      run: npm install -g yarn && yarn
+    - name: Install Playwright Browsers
+      run: yarn playwright install --with-deps
+    - name: Run Playwright tests
+      run: yarn playwright test
+    - uses: actions/upload-artifact@v4
+      if: ${{ !cancelled() }}
+      with:
+        name: playwright-report
+        path: playwright-report/
+        retention-days: 30
+
+  linux_os:
+    name: ${{ matrix.os }} (${{ matrix.browser }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ ubuntu-24.04 ]
+        browser: [ chrome, firefox, webkit, msedge ]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout ${{ github.repository }} repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: |
+          yarn install --frozen-lockfile
+          npx playwright install --with-deps ${{ matrix.browser }}
+        env:
+          DEBUG: pw:install
+
+      - name: Run Playwright tests
+        run: xvfb-run --auto-servernum --server-args="-screen 0 1366x768x24" -- yarn test --project=${{ matrix.browser }}
+
+      - name: Upload artifacts
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: Test results for ${{ matrix.os }} (${{ matrix.browser }})
+          path: test-results/junit-results.xml
+          retention-days: 30
+
+  mac_os:
+    name: ${{ matrix.os }} (${{ matrix.browser }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ macos-13 ]
+        browser: [ chrome, firefox, webkit, msedge ]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout ${{ github.repository }} repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: |
+          yarn install --frozen-lockfile
+          npx playwright install --with-deps ${{ matrix.browser }}
+        env:
+          DEBUG: pw:install
+
+      - name: Run Playwright tests
+        run: yarn test --project=${{ matrix.browser }}
+
+      - name: Upload artifacts
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: Test results for ${{ matrix.os }} (${{ matrix.browser }})
+          path: test-results/junit-results.xml
+          retention-days: 30
+
+  windows_os:
+    name: ${{ matrix.os }} (${{ matrix.browser }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ windows-2022 ]
+        browser: [ chrome, firefox, webkit, msedge ]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout ${{ github.repository }} repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: |
+          yarn install --frozen-lockfile
+          npx playwright install --with-deps ${{ matrix.browser }}
+        env:
+          DEBUG: pw:install
+
+      - name: Run Playwright tests
+        run: yarn test --project=${{ matrix.browser }}
+        shell: bash
+
+      - name: Upload artifacts
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: Test results for ${{ matrix.os }} (${{ matrix.browser }})
+          path: test-results/junit-results.xml
+          retention-days: 30
+
+  publish-linux-results:
+    name: Publish Linux test results
+    needs: linux_os
+    runs-on: ubuntu-24.04
+    if: ${{ !cancelled() }}
+
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Publish test results
+        uses: EnricoMi/publish-unit-test-result-action/linux@v2
+        if: always()
+        with:
+          files: artifacts/**/*.xml
+
+  publish-macos-results:
+    name: Publish MacOS test results
+    needs: mac_os
+    runs-on: macos-14
+    if: ${{ !cancelled() }}
+
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Publish test results
+        uses: EnricoMi/publish-unit-test-result-action/macos@v2
+        if: always()
+        with:
+          files: artifacts/**/*.xml
+
+  publish-windows-results:
+    name: Publish Windows test results
+    needs: windows_os
+    runs-on: windows-2022
+    if: ${{ !cancelled() }}
+
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Publish test results
+        uses: EnricoMi/publish-unit-test-result-action/windows@v2
+        if: always()
+        with:
+          files: artifacts/**/*.xml

@@ -1,0 +1,20 @@
+{
+  "author": "Jakub Turkiewicz <jj.turkiewicz@gmail.com> (https://kshyk.github.io/portfolio/)",
+  "name": "team-and-personal",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:kshyk/team-and-personal.git",
+  "license": "BSD-3-Clause",
+  "keywords": [
+    "team",
+    "personal"
+  ],
+  "devDependencies": {
+    "@playwright/test": "^1.49.0",
+    "@types/node": "^22.10.1"
+  },
+  "scripts": {
+    "test": "yarn playwright test",
+    "test-results:rm": "rm -Rf test-results/* || true"
+  }
+}

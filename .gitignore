@@ -310,3 +310,7 @@ dist
 # .pnp.*
 
 # End of https://www.toptal.com/developers/gitignore/api/git,node,yarn,linux,macos,intellij+all
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
