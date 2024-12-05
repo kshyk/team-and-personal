@@ -13,13 +13,13 @@ export default class Header {
   clickLogo = async () => await this.logo.click();
 
   checkPhoneNumber = async (number: string) =>
-    expect(this.phone).toContainText(number);
+    expect.soft(this.phone).toContainText(number);
 
   checkEmailAddress = async (email: string) =>
-    expect(this.mail).toContainText(email);
+    expect.soft(this.mail).toContainText(email);
 
   checkEmailLink = async (href: string) =>
-    expect(this.mail.getByRole("link")).toHaveAttribute('href', href);
+    expect.soft(this.mail.getByRole("link")).toHaveAttribute('href', href);
 
   checkSocialMediaIcon = async (sm: SocialMedia, url: string) => {
     const icon = this.page.locator(`a.topka-${sm}`);

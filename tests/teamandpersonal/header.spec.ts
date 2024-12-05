@@ -1,16 +1,20 @@
-import {expect, test} from '@playwright/test';
+import {expect, Page, test} from '@playwright/test';
 import Header from '../../pageobjects/teamandpersonal/header';
 import HomePage from '../../pageobjects/teamandpersonal/home-page';
 
 test.describe('Header', () => {
+  test.describe.configure({ mode: 'serial' });
+
+  let page: Page;
   let header: Header;
 
-  test.beforeEach(async ({ page }) => {
+  test.beforeAll(async ({ browser }) => {
+    page = await browser.newPage();
     await new HomePage(page).goto();
     header = new Header(page);
   });
 
-  test('Logo navigation', async ({ page }) => {
+  test('Logo navigation', async () => {
     await header.clickLogo();
     expect(page.url()).toBe('https://teamandpersonal.pl/');
   });
