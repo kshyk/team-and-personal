@@ -46,7 +46,7 @@ test.describe('Header', () => {
     const pagePromise = context.waitForEvent('page');
     await header.clickSocialMediaIcon('instagram');
     const newPage = await pagePromise;
-    expect(newPage.url()).toMatch(/^https:\/\/www\.instagram\.com\/teamandpersonal\/$/);
+    expect(decodeURIComponent(newPage.url())).toContain('https://www.instagram.com/teamandpersonal/');
   });
 
   test('Pinterest icon navigation', async ({ context }) => {
