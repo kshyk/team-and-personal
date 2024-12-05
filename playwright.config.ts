@@ -20,6 +20,7 @@ export default defineConfig({
     trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
     timezoneId: 'Europe/Warsaw',
+    locale: 'pl-PL',
     video: {
       mode: 'retain-on-failure',
       size: { width: 1920, height: 1080 }
