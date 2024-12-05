@@ -21,45 +21,12 @@ test.describe('Header', () => {
     await header.checkEmailLink('mailto:biuro@teamandpersonal.pl');
   });
 
-  test('Facebook icon navigation', async ({ context }) => {
-    const pagePromise = context.waitForEvent('page');
-    await header.clickSocialMediaIcon('facebook');
-    const newPage = await pagePromise;
-    expect(newPage.url()).toMatch(/^https:\/\/www\.facebook\.com\/TeamAndPersonal\/\?ref=bookmarks$/);
-  });
-
-  test('YouTube icon navigation', async ({ context }) => {
-    const pagePromise = context.waitForEvent('page');
-    await header.clickSocialMediaIcon('youtube');
-    const newPage = await pagePromise;
-    expect(decodeURIComponent(newPage.url())).toContain('https://www.youtube.com/channel/UCealDsXd2QtuW_on0wjSqtw')
-  });
-
-  test('LinkedIn icon navigation', async ({ context }) => {
-    const pagePromise = context.waitForEvent('page');
-    await header.clickSocialMediaIcon('linkedin');
-    const newPage = await pagePromise;
-    expect(newPage.url()).toMatch(/^https:\/\/www\.linkedin\.com\/company\/teamandpersonal\/$/);
-  });
-
-  test('Instagram icon navigation', async ({ context }) => {
-    const pagePromise = context.waitForEvent('page');
-    await header.clickSocialMediaIcon('instagram');
-    const newPage = await pagePromise;
-    expect(decodeURIComponent(newPage.url())).toContain('https://www.instagram.com/teamandpersonal/');
-  });
-
-  test('Pinterest icon navigation', async ({ context }) => {
-    const pagePromise = context.waitForEvent('page');
-    await header.clickSocialMediaIcon('pinterest');
-    const newPage = await pagePromise;
-    expect(newPage.url()).toContain('pinterest.com/teamandpersonal/');
-  });
-
-  test('Twitter icon navigation', async ({ context }) => {
-    const pagePromise = context.waitForEvent('page');
-    await header.clickSocialMediaIcon('twitter');
-    const newPage = await pagePromise;
-    expect(newPage.url()).toMatch(/^https:\/\/x\.com\/TeamAndPersonal$/);
+  test('Social Media icon links', async () => {
+    await header.checkSocialMediaIcon('facebook', 'https://www.facebook.com/TeamAndPersonal/?ref=bookmarks');
+    await header.checkSocialMediaIcon('youtube', 'https://www.youtube.com/channel/UCealDsXd2QtuW_on0wjSqtw');
+    await header.checkSocialMediaIcon('linkedin', 'https://www.linkedin.com/company/teamandpersonal/');
+    await header.checkSocialMediaIcon('instagram', 'https://www.instagram.com/teamandpersonal/');
+    await header.checkSocialMediaIcon('pinterest', 'https://pl.pinterest.com/teamandpersonal/');
+    await header.checkSocialMediaIcon('twitter', 'https://twitter.com/TeamAndPersonal'); // Should be x.com/TeamAndPersonal -> avoiding redirection
   });
 });

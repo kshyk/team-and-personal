@@ -21,6 +21,9 @@ export default class Header {
   checkEmailLink = async (href: string) =>
     expect(this.mail.getByRole("link")).toHaveAttribute('href', href);
 
-  clickSocialMediaIcon = async (sm: SocialMedia) =>
-    await this.page.locator(`.topka-${sm}`).click();
+  checkSocialMediaIcon = async (sm: SocialMedia, url: string) => {
+    const icon = this.page.locator(`a.topka-${sm}`);
+    await expect.soft(icon).toHaveAttribute('href', url);
+    await expect.soft(icon).toHaveAttribute('target', '_blank');
+  }
 }
