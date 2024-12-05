@@ -3,11 +3,10 @@ import Header from '../../pageobjects/teamandpersonal/header';
 import HomePage from '../../pageobjects/teamandpersonal/home-page';
 
 test.describe('Header', () => {
-  let homePage: HomePage
   let header: Header;
 
   test.beforeEach(async ({ page }) => {
-    homePage = await new HomePage(page).goto();
+    await new HomePage(page).goto();
     header = new Header(page);
   });
 
