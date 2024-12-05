@@ -152,7 +152,10 @@ jobs:
     name: Publish Linux test results
     needs: linux_os
     runs-on: ubuntu-24.04
-    if: always()
+    if: ${{ !cancelled() }}
+    permissions:
+      checks: write
+      pull-requests: write
 
     steps:
       - name: Download artifacts
@@ -170,7 +173,10 @@ jobs:
     name: Publish MacOS test results
     needs: mac_os
     runs-on: macos-14
-    if: always()
+    if: ${{ !cancelled() }}
+    permissions:
+      checks: write
+      pull-requests: write
 
     steps:
       - name: Download artifacts
@@ -188,7 +194,10 @@ jobs:
     name: Publish Windows test results
     needs: windows_os
     runs-on: windows-2022
-    if: always()
+    if: ${{ !cancelled() }}
+    permissions:
+      checks: write
+      pull-requests: write
 
     steps:
       - name: Download artifacts
