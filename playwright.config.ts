@@ -11,7 +11,7 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   reporter: [
     ['blob'],
-    process.env.CI ? ['github'] : ['list'],
+    ['list'],
     [
       'html',
       {
