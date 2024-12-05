@@ -2,6 +2,11 @@
 
 Team & Personal Company testing framework
 
+[![Playwright Tests](https://github.com/kshyk/team-and-personal/actions/workflows/main.yml/badge.svg)](https://github.com/kshyk/team-and-personal/actions/workflows/main.yml)
+[![CodeQL](https://github.com/kshyk/team-and-personal/actions/workflows/codeql.yml/badge.svg)](https://github.com/kshyk/team-and-personal/actions/workflows/codeql.yml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=kshyk_team-and-personal&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=kshyk_team-and-personal)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=kshyk_team-and-personal&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=kshyk_team-and-personal)
+
 ## Tech Stack
 
 ### Frameworks
