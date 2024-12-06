@@ -19,6 +19,8 @@ export default defineConfig({
     baseURL: 'https://teamandpersonal.pl',
     trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
+    navigationTimeout: 1_000 * 15,
+    actionTimeout: 1_000 * 5,
     timezoneId: 'Europe/Warsaw',
     locale: 'pl-PL',
     video: {
