@@ -1,14 +1,17 @@
 import {expect, Page, test} from '@playwright/test';
 import Header from '../../pageobjects/teamandpersonal/header';
 import HomePage from '../../pageobjects/teamandpersonal/home-page';
+import {
+  MainMenuItem
+} from "../../pageobjects/teamandpersonal/types/header.types";
 
 test.describe('Header', () => {
-  test.describe.configure({ mode: 'serial' });
+  test.describe.configure({mode: 'serial'});
 
   let page: Page;
   let header: Header;
 
-  test.beforeAll(async ({ browser }) => {
+  test.beforeAll(async ({browser}) => {
     page = await browser.newPage();
     await new HomePage(page).goto();
     header = new Header(page);
@@ -32,5 +35,18 @@ test.describe('Header', () => {
     await header.checkSocialMediaIcon('instagram', 'https://www.instagram.com/teamandpersonal/');
     await header.checkSocialMediaIcon('pinterest', 'https://pl.pinterest.com/teamandpersonal/');
     await header.checkSocialMediaIcon('twitter', 'https://twitter.com/TeamAndPersonal'); // Should be x.com/TeamAndPersonal -> avoiding redirection
+  });
+
+  test('Primary menu parent items', async () => {
+    const mainMenuItems: MainMenuItem[] = [
+      'Team&Personal',
+      'O firmie',
+      'Wyjazdy Integracyjne',
+      'Team building',
+      'Szkolenia',
+      'Eventy',
+      'Kontakt',
+    ];
+    await header.checkMainMenuItems(mainMenuItems);
   });
 });
