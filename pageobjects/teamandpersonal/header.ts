@@ -70,6 +70,6 @@ export default class Header {
   }
 
   clickEndMenuItem = async (item: IntegrationTripIndoorType | IntegrationTripOutdoorType | CityGameType | FieldGameType | TeamBuildingIndoorType | TeamBuildingOutdoorType | ArtisticType | CSRType | IntegrativeTrainingType | DevelopmentTrainingType | CoachingType | TeamCoachingType | EventIndoorType | EventOutdoorType | PicnicType | ConferenceType) => {
-    await this.mainMenu.filter({has: this.subMenu}).filter({has: this.subMenu}).getByRole('link', {exact: true}).filter({hasText: item}).first().hover();
+    await this.mainMenu.filter({has: this.subMenu}).filter({has: this.subMenu}).getByRole('link', {exact: true}).filter({hasText: item}).first().click();
   }
 }
