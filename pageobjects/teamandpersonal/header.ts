@@ -23,6 +23,9 @@ import {
   TeamCoachingType,
   TrainingType
 } from "./types/header.types";
+import HomePage from "./home-page";
+import AboutPage from "./about-page";
+import ContactPage from "./contact-page";
 
 export default class Header {
   constructor(
@@ -35,7 +38,10 @@ export default class Header {
   ) {
   }
 
-  clickLogo = async () => await this.logo.click();
+  clickLogo = async () => {
+    await this.logo.click();
+    return new HomePage(this.page);
+  }
 
   checkPhoneNumber = async (number: string) =>
     expect.soft(this.phone).toContainText(number);
@@ -61,8 +67,30 @@ export default class Header {
     }
   }
 
+  openTeamAndPersonal = async () => {
+    await this.clickMenuItem('Team&Personal');
+    return new HomePage(this.page);
+  }
+
+  openAbout = async () => {
+    await this.clickMenuItem('O firmie');
+    return new AboutPage(this.page);
+  }
+
+  openContact = async () => {
+    await this.clickMenuItem('Kontakt');
+    return new ContactPage(this.page);
+  }
+
+  clickMenuItem = async (item: MainMenuItem) => {
+    const hover = await this.hoverMenuItem(item);
+    await hover.click();
+  }
+
   hoverMenuItem = async (item: MainMenuItem) => {
-    await this.mainMenu.getByRole('link', {exact: true}).filter({hasText: item}).first().hover();
+    const locator = this.mainMenu.getByRole('link', {exact: true}).filter({hasText: item}).first();
+    await locator.hover();
+    return locator;
   }
 
   hoverSubMenuItem = async (item: IntegrationTripType | TeamBuildingType | TrainingType | EventType) => {
