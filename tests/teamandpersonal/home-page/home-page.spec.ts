@@ -1,5 +1,7 @@
-import {test} from "@playwright/test";
-import HomePage from "../../../pageobjects/teamandpersonal/home-page";
+import {Page, test} from "@playwright/test";
+import HomePage, {
+  OfferPuzzle
+} from "../../../pageobjects/teamandpersonal/home-page";
 import Header from "../../../pageobjects/teamandpersonal/header";
 import * as fs from "node:fs";
 import * as path from "node:path";
@@ -28,32 +30,27 @@ test.describe('HomePage', () => {
 
   test.describe('Offer Puzzles', () => {
     test('Integration Trips', async ({page}) => {
-      await homePage.checkOfferPuzzleTitle('Wyjazdy integracyjne', 'Wyjazdy integracyjne');
-      await homePage.checkOfferPuzzleDescription('Wyjazdy integracyjne', 'Wspólny wyjazd czy impreza integracyjna może być pierwszym krokiem w „formowaniu” zespołu. To czas na poznanie siebie i swoich możliwości. W naszej ofercie znajdziecie krótkie programy indoorowe jak i rozbudowane scenariusze na lądzie, wodzie i w powietrzu. Wśród nich m.in. autorskie gry miejskie oraz gry terenowe.');
-      await homePage.clickOfferPuzzle('Wyjazdy integracyjne');
-      await page.waitForURL('/wyjazdy-integracyjne/', {timeout: 10000});
+      await checkOfferPuzzle(page, 'Wyjazdy integracyjne', 'Wyjazdy integracyjne', 'Wspólny wyjazd czy impreza integracyjna może być pierwszym krokiem w „formowaniu” zespołu. To czas na poznanie siebie i swoich możliwości. W naszej ofercie znajdziecie krótkie programy indoorowe jak i rozbudowane scenariusze na lądzie, wodzie i w powietrzu. Wśród nich m.in. autorskie gry miejskie oraz gry terenowe.', '/wyjazdy-integracyjne/');
     });
 
     test('Trainings', async ({page}) => {
-      await homePage.checkOfferPuzzleTitle('Szkolenia', 'Szkolenia');
-      await homePage.checkOfferPuzzleDescription('Szkolenia', 'Budowanie zespołu to ciągły proces. Pierwsze tarcia i konflikty potrafią negatywnie wpłynąć nie tylko na atmosferę ale i efektywność całego zespołu. Zaufanie, komunikacja i współpraca wymagają czasu i przemyślanych rozwiązań. W tym procesie nie można iść na skróty a czas poświęcony na trening, zwraca się po stokroć, dając impuls rozwojowy na płaszczyznach życia osobistego i biznesowego.');
-      await homePage.clickOfferPuzzle('Szkolenia');
-      await page.waitForURL('/szkolenia/', {timeout: 10000});
+      await checkOfferPuzzle(page, 'Szkolenia', 'Szkolenia', 'Budowanie zespołu to ciągły proces. Pierwsze tarcia i konflikty potrafią negatywnie wpłynąć nie tylko na atmosferę ale i efektywność całego zespołu. Zaufanie, komunikacja i współpraca wymagają czasu i przemyślanych rozwiązań. W tym procesie nie można iść na skróty a czas poświęcony na trening, zwraca się po stokroć, dając impuls rozwojowy na płaszczyznach życia osobistego i biznesowego.', '/szkolenia/');
     });
 
     test('Team Building', async ({page}) => {
-      await homePage.checkOfferPuzzleTitle('Team building', 'Team building');
-      await homePage.checkOfferPuzzleDescription('Team building', 'Serdecznie zapraszamy do wspólnej podróży w poszukiwaniu cennych i rozwijających doświadczeń. Czy dobry zespół oparty jest na „Efektywnej komunikacji”? W końcu wszyscy mówimy tym samym językiem a tak często zupełnie się nie rozumiemy. Czy stwierdzenie „Jaki lider, taki zespół „ma sens? Odpowiedzi znajdziesz w naszych  popularnych szkoleniach jak „Przywództwo i zarządzanie zespołem” lub „Komunikacja interpersonalna”');
-      await homePage.clickOfferPuzzle('Team building');
-      await page.waitForURL('/team-building/', {timeout: 10000});
+      await checkOfferPuzzle(page, 'Team building', 'Team building', 'Serdecznie zapraszamy do wspólnej podróży w poszukiwaniu cennych i rozwijających doświadczeń. Czy dobry zespół oparty jest na „Efektywnej komunikacji”? W końcu wszyscy mówimy tym samym językiem a tak często zupełnie się nie rozumiemy. Czy stwierdzenie „Jaki lider, taki zespół „ma sens? Odpowiedzi znajdziesz w naszych  popularnych szkoleniach jak „Przywództwo i zarządzanie zespołem” lub „Komunikacja interpersonalna”', '/team-building/');
     });
 
     test('Events', async ({page}) => {
-      await homePage.checkOfferPuzzleTitle('Eventy', 'Eventy');
-      await homePage.checkOfferPuzzleDescription('Eventy', 'Na każdym etapie życia zespołu jest miejsce na Event, wieczorną zabawę, czy konferencję tematyczną służącą podsumowaniu lub inauguracji. W naszej ofercie znajdziecie Państwo propozycje od kameralnych programów artystycznych, wieczorów tematycznych po kompleksową obsługę techniczną i artystyczną.')
-      await homePage.clickOfferPuzzle('Eventy');
-      await page.waitForURL('/eventy/', {timeout: 10000});
-    })
+      await checkOfferPuzzle(page, 'Eventy', 'Eventy', 'Na każdym etapie życia zespołu jest miejsce na Event, wieczorną zabawę, czy konferencję tematyczną służącą podsumowaniu lub inauguracji. W naszej ofercie znajdziecie Państwo propozycje od kameralnych programów artystycznych, wieczorów tematycznych po kompleksową obsługę techniczną i artystyczną.', '/eventy/');
+    });
+
+    const checkOfferPuzzle = async (page: Page, offerPuzzle: OfferPuzzle, title: string, description: string, path: string) => {
+      await homePage.checkOfferPuzzleTitle(offerPuzzle, title);
+      await homePage.checkOfferPuzzleDescription(offerPuzzle, description);
+      await homePage.clickOfferPuzzle(offerPuzzle);
+      await page.waitForURL(path, {timeout: 10000});
+    };
   });
 
   test.describe('References', () => {
