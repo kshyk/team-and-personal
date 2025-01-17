@@ -24,6 +24,7 @@ test.describe('Header', () => {
 
   test('Contact data: Phone number and Email address', async () => {
     await header.checkPhoneNumber('+48 660 22 77 22');
+    await header.checkPhoneLink('tel:+48660227722');
     await header.checkEmailAddress('biuro [at] teamandpersonal.pl');
     await header.checkEmailLink('mailto:biuro@teamandpersonal.pl');
   });

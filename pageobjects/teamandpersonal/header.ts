@@ -46,6 +46,9 @@ export default class Header {
   checkPhoneNumber = async (number: string) =>
     expect.soft(this.phone).toContainText(number);
 
+  checkPhoneLink = async (href: string) =>
+    expect.soft(this.phone).toHaveAttribute('href', href);
+
   checkEmailAddress = async (email: string) =>
     expect.soft(this.mail).toContainText(email);
 
