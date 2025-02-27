@@ -1,2 +1,16 @@
+# Ignore IDE configuration files
+.idea
+
+# Ignore test and report directories
+allure-report
+allure-results
+blob-report
+downloads
+playwright-report
 test-results
+testfiles
+
+# Ignore dependencies
 node_modules
+.yarn
+venv

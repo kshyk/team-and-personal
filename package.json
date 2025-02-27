@@ -11,11 +11,20 @@
   ],
   "devDependencies": {
     "@playwright/test": "^1.50.1",
-    "@types/node": "^22.13.5"
+    "@types/node": "^22.13.5",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.4.3",
+    "prettier": "^3.5.2"
   },
   "scripts": {
     "test": "yarn playwright test",
-    "test-results:rm": "rm -Rf test-results/* || true"
+    "test-results:rm": "rm -Rf test-results/* || true",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.{js,ts,json,md,yml,yaml}": [
+      "prettier --config .prettierrc --write"
+    ]
   },
   "packageManager": "yarn@4.6.0"
 }
