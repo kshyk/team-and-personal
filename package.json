@@ -16,5 +16,6 @@
   "scripts": {
     "test": "yarn playwright test",
     "test-results:rm": "rm -Rf test-results/* || true"
-  }
+  },
+  "packageManager": "yarn@4.5.1"
 }
