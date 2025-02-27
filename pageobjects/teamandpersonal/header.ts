@@ -31,8 +31,8 @@ export default class Header {
   constructor(
     readonly page: Page,
     private readonly logo = page.locator('a.home-link'),
-    private readonly phone = page.locator('.topka-tel'),
-    private readonly mail = page.locator('.topka-mail'),
+    private readonly phone = page.locator('.topka-tel', {hasText: '+48 660 22 77 22'}),
+    private readonly mail = page.locator('.topka-mail', {hasText: 'biuro@teamandpersonal.pl'}),
     private readonly mainMenu = page.locator('#primary-menu'),
     private readonly subMenu = page.locator('.sub-menu'),
   ) {
@@ -43,14 +43,8 @@ export default class Header {
     return new HomePage(this.page);
   }
 
-  checkPhoneNumber = async (number: string) =>
-    expect.soft(this.phone).toContainText(number);
-
   checkPhoneLink = async (href: string) =>
     expect.soft(this.phone).toHaveAttribute('href', href);
-
-  checkEmailAddress = async (email: string) =>
-    expect.soft(this.mail).toContainText(email);
 
   checkEmailLink = async (href: string) =>
     expect.soft(this.mail.getByRole("link")).toHaveAttribute('href', href);

@@ -23,9 +23,7 @@ test.describe('Header', () => {
   });
 
   test('Contact data: Phone number and Email address', async () => {
-    await header.checkPhoneNumber('+48 660 22 77 22');
     await header.checkPhoneLink('tel:+48660227722');
-    await header.checkEmailAddress('biuro [at] teamandpersonal.pl');
     await header.checkEmailLink('mailto:biuro@teamandpersonal.pl');
   });
 
@@ -35,7 +33,7 @@ test.describe('Header', () => {
     await header.checkSocialMediaIcon('linkedin', 'https://www.linkedin.com/company/teamandpersonal/');
     await header.checkSocialMediaIcon('instagram', 'https://www.instagram.com/teamandpersonal/');
     await header.checkSocialMediaIcon('pinterest', 'https://pl.pinterest.com/teamandpersonal/');
-    await header.checkSocialMediaIcon('twitter', 'https://twitter.com/TeamAndPersonal'); // Should be x.com/TeamAndPersonal -> avoiding redirection
+    await header.checkSocialMediaIcon('twitter', 'https://x.com/TeamAndPersonal');
   });
 
   test('Primary menu parent items', async () => {
