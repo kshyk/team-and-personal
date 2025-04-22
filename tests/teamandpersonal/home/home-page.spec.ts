@@ -95,7 +95,7 @@ test.describe('HomePage', () => {
         await homePage.checkReferenceCompanyName(i, references[i].companyName);
         await homePage.checkReferenceDate(i, references[i].date);
       }
-      await homePage.checkNumberOfReferences(13);
+      await homePage.checkNumberOfReferences(references.length);
     });
   });
 
