@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Health Check
-        uses: jtalk/url-health-check-action@v4
+        uses: jtalk/url-health-check-action@v5
         with:
           url: 'https://teamandpersonal.pl'
           follow-redirect: false
